@@ -1,0 +1,19 @@
+DECLARE
+stripped_postcode_ VARCHAR(4);
+rep_ VARCHAR(100);
+
+BEGIN
+  
+  stripped_postcode_ := TRIM(SUBSTR('TW10 6JR', 0, 4)); --postcode would be the &NEW:POSTCODE argument
+  
+  BEGIN
+    SELECT CF$_REP_LIST INTO rep_ FROM RS_POSTCODE_LOOKUP_CLV WHERE CF$_POSTCODE_LOOKUP = stripped_postcode_;
+  EXCEPTION WHEN NO_DATA_FOUND THEN
+    SELECT CF$_REP_LIST INTO rep_ FROM RS_POSTCODE_LOOKUP_CLV WHERE CF$_POSTCODE_LOOKUP = '*';
+  END;
+
+
+
+  DBMS_OUTPUT.Put_Line(rep_);
+
+END;
